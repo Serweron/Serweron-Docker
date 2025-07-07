@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Starting loading Serweron docker..."
+cd /data || exit 1
+/start
