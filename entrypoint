@@ -1,4 +1,17 @@
 #!/bin/bash
 echo "Starting loading Serweron docker..."
 cd /data || exit 1
+
+LATEST_VERSION=$(curl -s https://maven.pcreators.pl/releases/pl/serweron/SerweronLib/maven-metadata.xml | grep -oPm1 "(?<=<latest>)[^<]+")
+
+if [ -z "$LATEST_VERSION" ]; then
+    echo "Could not find the latest version."
+    exit 1
+fi
+
+echo "Latest version: $LATEST_VERSION"
+
+curl -o plugins/SerweronLib.jar "https://maven.pcreators.pl/releases/pl/serweron/SerweronLib/$LATEST_VERSION/SerweronLib-$LATEST_VERSION.jar"
+
+
 /start
