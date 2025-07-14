@@ -9,6 +9,7 @@ services:
         image: masnypen/serweron:latest
         environment:
             VERSION: 1.21
+            LIB_VERSION: <SerweronLib version>
         ports:
             - "25565:25565"
         volumes:

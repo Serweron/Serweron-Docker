@@ -2,16 +2,25 @@
 echo "Starting loading Serweron docker..."
 cd /data || exit 1
 
-LATEST_VERSION=$(curl -s https://maven.pcreators.pl/releases/pl/serweron/SerweronLib/maven-metadata.xml | grep -oPm1 "(?<=<latest>)[^<]+")
+mkdir -p plugins
 
-if [ -z "$LATEST_VERSION" ]; then
-    echo "Could not find the latest version."
-    exit 1
+if [ -z "$LIB_VERSION" ]; then
+    echo "LIB_VERSION is not set. Trying to fetch the latest version..."
+    LIB_VERSION=$(curl -s https://maven.pcreators.pl/releases/pl/serweron/SerweronLib/maven-metadata.xml | grep -oPm1 "(?<=<latest>)[^<]+")
+
+    if [ -z "$LIB_VERSION" ]; then
+        echo "Could not find the latest version from Maven metadata and LIB_VERSION is not set."
+        exit 1
+    fi
+
+    echo "Using latest version: $LIB_VERSION"
+else
+    echo "Using specified version: $LIB_VERSION"
 fi
 
-echo "Latest version: $LATEST_VERSION"
-
-curl -o plugins/SerweronLib.jar "https://maven.pcreators.pl/releases/pl/serweron/SerweronLib/$LATEST_VERSION/SerweronLib-$LATEST_VERSION.jar"
-
+curl -f -o plugins/SerweronLib.jar "https://maven.pcreators.pl/releases/pl/serweron/SerweronLib/$LIB_VERSION/SerweronLib-$LIB_VERSION.jar" || {
+    echo "Failed to download SerweronLib version $LIB_VERSION"
+    exit 1
+}
 
 /start
