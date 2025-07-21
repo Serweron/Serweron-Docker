@@ -1,5 +1,7 @@
 # Serweron Docker
-We are using awesome itzg/minecraft-server for PaperMC server in Docker.
+The Serweron Docker project allows you to run your **PaperMC** server in a Docker container,
+automatically adding the proprietary **SerweronLib** and other useful libraries,
+and supports easy plugin testing and configuration via environment variables.
 
 ## Usage
 ```yml
